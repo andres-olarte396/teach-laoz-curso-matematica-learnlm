@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolos Mágicos</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; background-color: #333; color: white; }
+        #lane { 
+            width: 300px; height: 400px; 
+            margin: 20px auto; 
+            background: linear-gradient(to bottom, #111, #444); 
+            border: 10px solid #8B4513; 
+            position: relative; 
+            overflow: hidden; 
+            border-radius: 0 0 20px 20px;
+        }
+        .pin { 
+            width: 30px; height: 80px; 
+            background: white; border-radius: 10px 10px 5px 5px; 
+            position: absolute; 
+            transition: all 0.3s; 
+            cursor: pointer;
+            display: flex; justify-content: center; align-items: center;
+            color: red; font-weight: bold; border: 2px solid red;
+        }
+        .pin::before { content: ''; position: absolute; top: 15px; width: 100%; height: 5px; background: red; }
+        .pin.knocked { transform: rotate(90deg) translate(20px, 20px); opacity: 0.5; pointer-events: none; }
+        
+        #controls { margin-top: 20px; }
+        #score { font-size: 2em; color: #f1c40f; }
+        button { padding: 10px 20px; font-size: 1.2em; background: #e74c3c; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>🎳 Bolos de Resta</h1>
+    <p>Haz clic en los bolos para derribarlos. ¿Cuántos quedan?</p>
+
+    <div id="score">10 - 0 = 10</div>
+
+    <div id="lane">
+        <!-- Pins will be generated here -->
+    </div>
+
+    <button onclick="resetGame()">Reiniciar Partida</button>
+
+    <script>
+        const lane = document.getElementById('lane');
+        const scoreDisplay = document.getElementById('score');
+        let totalPins = 10;
+        let knockedPins = 0;
+
+        // Pin positions (triangle formation)
+        const positions = [
+            {x: 135, y: 50}, // 1
+            {x: 110, y: 100}, {x: 160, y: 100}, // 2
+            {x: 85, y: 150}, {x: 135, y: 150}, {x: 185, y: 150}, // 3
+            {x: 60, y: 200}, {x: 110, y: 200}, {x: 160, y: 200}, {x: 210, y: 200} // 4
+        ];
+
+        function createPins() {
+            lane.innerHTML = '';
+            positions.forEach((pos, index) => {
+                const pin = document.createElement('div');
+                pin.classList.add('pin');
+                pin.style.left = pos.x + 'px';
+                pin.style.top = pos.y + 'px';
+                pin.onclick = () => knockPin(pin);
+                lane.appendChild(pin);
+            });
+        }
+
+        function knockPin(pin) {
+            if (!pin.classList.contains('knocked')) {
+                pin.classList.add('knocked');
+                knockedPins++;
+                updateScore();
+            }
+        }
+
+        function updateScore() {
+            let standing = totalPins - knockedPins;
+            scoreDisplay.innerText = `${totalPins} - ${knockedPins} = ${standing}`;
+        }
+
+        function resetGame() {
+            knockedPins = 0;
+            updateScore();
+            createPins();
+        }
+
+        resetGame();
+    </script>
+</body>
+</html>

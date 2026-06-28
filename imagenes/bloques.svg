@@ -1,0 +1,16 @@
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Ten Block -->
+  <rect x="10" y="10" width="20" height="80" fill="#dc143c" stroke="black"/>
+  <line x1="10" y1="20" x2="30" y2="20" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="30" x2="30" y2="30" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="40" x2="30" y2="40" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="50" x2="30" y2="50" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="60" x2="30" y2="60" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="70" x2="30" y2="70" stroke="black" stroke-opacity="0.5"/>
+  <line x1="10" y1="80" x2="30" y2="80" stroke="black" stroke-opacity="0.5"/>
+  
+  <!-- Unit Blocks -->
+  <rect x="50" y="70" width="20" height="20" fill="#1e90ff" stroke="black"/>
+  <rect x="80" y="70" width="20" height="20" fill="#1e90ff" stroke="black"/>
+  <rect x="110" y="70" width="20" height="20" fill="#1e90ff" stroke="black"/>
+</svg>

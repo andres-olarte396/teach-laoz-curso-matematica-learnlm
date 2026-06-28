@@ -1,0 +1,16 @@
+<svg width="200" height="100" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Body -->
+  <path d="M20,60 Q60,30 100,60 T180,60" fill="#228b22" stroke="black" stroke-width="2"/>
+  <path d="M20,60 Q60,90 100,60 T180,60" fill="#32cd32" stroke="black" stroke-width="2"/>
+  <!-- Mouth Open (Greater Than) -->
+  <path d="M180,60 L140,40" stroke="black" stroke-width="3"/>
+  <path d="M180,60 L140,80" stroke="black" stroke-width="3"/>
+  <!-- Teeth -->
+  <polygon points="170,55 165,55 167,60" fill="white"/>
+  <polygon points="160,50 155,50 157,60" fill="white"/>
+  <polygon points="170,65 165,65 167,60" fill="white"/>
+  <polygon points="160,70 155,70 157,60" fill="white"/>
+  <!-- Eye -->
+  <circle cx="150" cy="45" r="5" fill="white" stroke="black"/>
+  <circle cx="150" cy="45" r="2" fill="black"/>
+</svg>

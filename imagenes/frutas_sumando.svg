@@ -1,0 +1,36 @@
+<svg width="200" height="150" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes slideLeft {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(40px); }
+    }
+    @keyframes slideRight {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-40px); }
+    }
+    @keyframes plusAppear {
+      0% { opacity: 0; transform: scale(0); }
+      50% { opacity: 1; transform: scale(1.2); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+  </style>
+
+  <!-- Left Apples (Group 1) -->
+  <g transform="translate(40, 75)" style="animation: slideLeft 2s forwards ease-in-out;">
+    <circle cx="0" cy="0" r="10" fill="red" stroke="black"/>
+    <circle cx="15" cy="10" r="10" fill="red" stroke="black"/>
+    <text x="-10" y="35" font-family="Arial" font-size="12">2</text>
+  </g>
+
+  <!-- Right Apples (Group 2) -->
+  <g transform="translate(160, 75)" style="animation: slideRight 2s forwards ease-in-out;">
+    <circle cx="0" cy="0" r="10" fill="green" stroke="black"/>
+    <circle cx="15" cy="5" r="10" fill="green" stroke="black"/>
+    <circle cx="0" cy="15" r="10" fill="green" stroke="black"/>
+    <text x="-5" y="40" font-family="Arial" font-size="12">3</text>
+  </g>
+
+  <!-- Plus Sign -->
+  <text x="90" y="80" font-family="Arial" font-size="30" font-weight="bold" fill="blue" style="animation: plusAppear 2s forwards; animation-delay: 1s; transform-origin: center;">+</text>
+
+</svg>

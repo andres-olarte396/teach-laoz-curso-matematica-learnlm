@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>La Máquina de Sumar</title>
+    <style>
+        body { font-family: 'Comic Sans MS', cursive, sans-serif; background-color: #ffe4e1; text-align: center; }
+        .machine-container { position: relative; width: 600px; height: 400px; margin: 0 auto; background-color: #fff; border-radius: 20px; border: 5px solid #ff69b4; overflow: hidden; }
+        .tube { position: absolute; width: 60px; height: 150px; background-color: #87ceeb; top: 0; border-radius: 0 0 10px 10px; }
+        .tube-left { left: 150px; background-color: #ffb6c1; }
+        .tube-right { right: 150px; background-color: #98fb98; }
+        .funnel { position: absolute; top: 150px; left: 100px; width: 400px; height: 100px; background-color: #dda0dd; clip-path: polygon(0 0, 100% 0, 80% 100%, 20% 100%); }
+        .collect-box { position: absolute; bottom: 0; left: 180px; width: 240px; height: 100px; background-color: #ffd700; border-radius: 10px 10px 0 0; display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; padding: 10px; }
+        
+        .ball { width: 30px; height: 30px; border-radius: 50%; position: absolute; transition: all 1s ease-in; }
+        .ball.left { background-color: #ff1493; }
+        .ball.right { background-color: #008000; }
+        
+        .controls { margin-top: 20px; }
+        button { font-size: 1.5em; padding: 10px 20px; margin: 10px; cursor: pointer; border-radius: 10px; border: none; }
+        #btnLeft { background-color: #ffb6c1; }
+        #btnRight { background-color: #98fb98; }
+        #result { font-size: 2em; margin: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>🤖 La Máquina de Sumar</h1>
+    <p>¡Añade bolas por la izquierda y por la derecha!</p>
+
+    <div class="machine-container">
+        <div class="tube tube-left"></div>
+        <div class="tube tube-right"></div>
+        <div class="funnel"></div>
+        <div class="collect-box" id="box"></div>
+    </div>
+
+    <div class="controls">
+        <button id="btnLeft" onclick="addBall('left')">+ Izquierda (1)</button>
+        <button id="btnRight" onclick="addBall('right')">+ Derecha (1)</button>
+        <button onclick="reset()">🗑️ Vaciar</button>
+    </div>
+
+    <div id="result">Total: 0</div>
+
+    <script>
+        let countLeft = 0;
+        let countRight = 0;
+
+        function addBall(side) {
+            if (side === 'left') countLeft++;
+            else countRight++;
+            
+            updateResult();
+            
+            // Visual Animation
+            let ball = document.createElement('div');
+            ball.className = `ball ${side}`;
+            
+            // Random start position within tube
+            let startLeft = side === 'left' ? 165 : 320 + 165; // approximated
+            // Let's use simpler relative positioning logic or fixed
+            if (side === 'left') {
+                ball.style.left = (160 + Math.random() * 40) + 'px';
+            } else {
+                ball.style.left = (390 + Math.random() * 40) + 'px'; // 600 - 150 - 60 approx
+            }
+
+            ball.style.top = '-40px';
+            document.querySelector('.machine-container').appendChild(ball);
+
+            // Animate Drop
+            setTimeout(() => {
+                ball.style.top = '320px'; // box bottom
+                // Converge to center
+                ball.style.left = (200 + Math.random() * 200) + 'px';
+            }, 100);
+
+            // Stop animation cleanly?
+            // Simplified: just let them pile up visually would be hard with basic CSS transition alone.
+            // For this version, we will just let them fall to bottom.
+        }
+
+        function updateResult() {
+            let total = countLeft + countRight;
+            document.getElementById('result').innerText = `${countLeft} + ${countRight} = ${total}`;
+        }
+
+        function reset() {
+            countLeft = 0;
+            countRight = 0;
+            updateResult();
+            // Remove balls
+            document.querySelectorAll('.ball').forEach(b => b.remove());
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<svg width="300" height="150" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes jump {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(50px, -50px); }
+      100% { transform: translate(100px, 0); }
+    }
+  </style>
+
+  <!-- Pond -->
+  <ellipse cx="200" cy="120" rx="80" ry="20" fill="blue" opacity="0.5"/>
+
+  <!-- Static Frog 1 -->
+  <g transform="translate(180, 110)">
+    <circle cx="0" cy="0" r="10" fill="green"/>
+    <circle cx="-5" cy="-5" r="3" fill="white"/><circle cx="-5" cy="-5" r="1" fill="black"/>
+    <circle cx="5" cy="-5" r="3" fill="white"/><circle cx="5" cy="-5" r="1" fill="black"/>
+  </g>
+
+  <!-- Static Frog 2 -->
+  <g transform="translate(220, 115)">
+    <circle cx="0" cy="0" r="10" fill="green"/>
+    <circle cx="-5" cy="-5" r="3" fill="white"/><circle cx="-5" cy="-5" r="1" fill="black"/>
+    <circle cx="5" cy="-5" r="3" fill="white"/><circle cx="5" cy="-5" r="1" fill="black"/>
+  </g>
+
+  <!-- Jumping Frog (Incoming) -->
+  <g transform="translate(50, 110)">
+    <g style="animation: jump 2s infinite ease-in-out;">
+      <circle cx="0" cy="0" r="10" fill="#32CD32" stroke="black"/>
+      <path d="M-10,0 Q-15,10 -10,15" stroke="#32CD32" stroke-width="3" fill="none"/> <!-- Leg -->
+      <path d="M10,0 Q15,10 10,15" stroke="#32CD32" stroke-width="3" fill="none"/> <!-- Leg -->
+      <circle cx="-4" cy="-4" r="3" fill="white"/><circle cx="-4" cy="-4" r="1" fill="black"/>
+      <circle cx="4" cy="-4" r="3" fill="white"/><circle cx="4" cy="-4" r="1" fill="black"/>
+    </g>
+  </g>
+</svg>

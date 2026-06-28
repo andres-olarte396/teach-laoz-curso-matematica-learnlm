@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor de Castillos</title>
+    <style>
+        body { font-family: 'Comic Sans MS', cursive, sans-serif; text-align: center; background-color: #e3f2fd; }
+        #construction-zone { 
+            width: 90%; max-width: 600px; height: 300px; 
+            margin: 20px auto; 
+            background-color: #81c784; 
+            border-bottom: 5px solid #388e3c; 
+            position: relative;
+            display: flex; align-items: flex-end; justify-content: center;
+        }
+        .block { 
+            width: 60px; height: 60px; 
+            background-color: #5d4037; 
+            border: 2px solid #3e2723; 
+            display: inline-flex; justify-content: center; align-items: center; 
+            color: white; font-weight: bold; font-size: 1.2em;
+            margin: 1px;
+            cursor: pointer;
+            user-select: none;
+        }
+        .tower { display: flex; flex-direction: column-reverse; margin: 0 5px; }
+        #controls { margin: 20px; }
+        button { padding: 10px 20px; font-size: 1.2em; border: none; border-radius: 10px; cursor: pointer; color: white; margin: 5px; }
+        .add-btn { background-color: #2196f3; }
+        .reset-btn { background-color: #f44336; }
+        #counter { font-size: 2em; color: #1565c0; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🏰 Constructor de Castillos</h1>
+    <p>¡Añade bloques de 100 para construir tu castillo! ¿Qué número formas?</p>
+
+    <div id="counter">Total: 0</div>
+
+    <div id="construction-zone">
+        <!-- Towers will appear here -->
+    </div>
+
+    <div id="controls">
+        <button class="add-btn" onclick="addHundred()">+ 100 (Añadir Torre)</button>
+        <button class="reset-btn" onclick="resetGame()">Reiniciar</button>
+    </div>
+
+    <script>
+        const zone = document.getElementById('construction-zone');
+        const counter = document.getElementById('counter');
+        let total = 0;
+
+        function addHundred() {
+            if (total >= 1000) {
+                alert("¡El castillo es muy grande! ¡Has llegado a 1000!");
+                return;
+            }
+
+            total += 100;
+            updateDisplay();
+
+            const tower = document.createElement('div');
+            tower.classList.add('tower');
+            
+            // Visual representation of a "hundred" tower (stack of 3 visual blocks)
+            for(let i=0; i<3; i++) {
+                const block = document.createElement('div');
+                block.classList.add('block');
+                if(i===1) block.innerText = "100";
+                tower.appendChild(block);
+            }
+            // Roof
+            const roof = document.createElement('div');
+            roof.style.width = '0'; roof.style.height = '0';
+            roof.style.borderLeft = '32px solid transparent';
+            roof.style.borderRight = '32px solid transparent';
+            roof.style.borderBottom = '30px solid red';
+            roof.style.marginBottom = '2px';
+            tower.appendChild(roof);
+
+            zone.appendChild(tower);
+        }
+
+        function updateDisplay() {
+            counter.innerText = "Total: " + total;
+        }
+
+        function resetGame() {
+            total = 0;
+            updateDisplay();
+            zone.innerHTML = '';
+        }
+    </script>
+</body>
+</html>

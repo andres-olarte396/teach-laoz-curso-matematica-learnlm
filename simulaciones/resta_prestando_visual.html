@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resta Prestando Visual</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; text-align: center; background-color: #fce4ec; }
+        .container { display: flex; justify-content: center; gap: 50px; margin-top: 20px; }
+        .place { border: 2px solid #880e4f; padding: 20px; background: white; border-radius: 10px; width: 150px; min-height: 200px; }
+        .title { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; color: #ad1457; }
+        .block-ten { 
+            width: 30px; height: 100px; 
+            background: linear-gradient(#1976d2, #64b5f6); 
+            border: 2px solid #0d47a1; 
+            margin: 5px; cursor: pointer; 
+            display: inline-block; vertical-align: top;
+            transition: transform 0.2s;
+        }
+        .block-ten:hover { transform: scale(1.1); box-shadow: 0 0 10px cyan; }
+        
+        .block-one { 
+            width: 20px; height: 20px; 
+            background: #ffca28; 
+            border: 2px solid #ff6f00; 
+            border-radius: 50%; 
+            margin: 3px; display: inline-block; 
+        }
+        
+        #instruction { font-size: 1.2em; margin: 20px; color: #880e4f; }
+        #equation { font-size: 2em; margin: 10px; font-weight: bold; }
+        button { padding: 10px 20px; font-size: 1.1em; background: #ab47bc; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>🆘 Pidiendo Ayuda al Vecino</h1>
+    <p id="instruction">Tenemos 3 Decenas y 2 Unidades (32). Queremos quitar 5 unidades. ¡Haz clic en una DECENA para romperla!</p>
+    
+    <div id="equation">32 - 5 = ?</div>
+
+    <div class="container">
+        <div class="place">
+            <div class="title">Decenas (10)</div>
+            <div id="tens-container">
+                <div class="block-ten" onclick="breakTen(this)"></div>
+                <div class="block-ten" onclick="breakTen(this)"></div>
+                <div class="block-ten" onclick="breakTen(this)"></div>
+            </div>
+        </div>
+        <div class="place">
+            <div class="title">Unidades (1)</div>
+            <div id="ones-container">
+                <div class="block-one"></div>
+                <div class="block-one"></div>
+            </div>
+        </div>
+    </div>
+
+    <button onclick="reset()">Reiniciar</button>
+
+    <script>
+        const tensContainer = document.getElementById('tens-container');
+        const onesContainer = document.getElementById('ones-container');
+        const instruction = document.getElementById('instruction');
+        
+        let tens = 3;
+        let ones = 2;
+        let broken = false;
+
+        function breakTen(element) {
+            if (broken) return; // Only break one
+            
+            // Remove ten
+            element.remove();
+            tens--;
+            
+            // Add 10 ones with animation
+            for(let i=0; i<10; i++) {
+                setTimeout(() => {
+                    const one = document.createElement('div');
+                    one.classList.add('block-one');
+                    onesContainer.appendChild(one);
+                }, i * 100);
+            }
+            ones += 10;
+            broken = true;
+            
+            instruction.innerText = "¡Ahora tienes 12 Unidades! Ya puedes quitar 5. (Haz clic en Reiniciar para probar otra vez)";
+            instruction.style.color = "green";
+            document.getElementById('equation').innerText = "2 Decenas y 12 Unidades";
+        }
+
+        function reset() {
+            tensContainer.innerHTML = '';
+            onesContainer.innerHTML = '';
+            for(let i=0; i<3; i++) {
+                const b = document.createElement('div');
+                b.classList.add('block-ten');
+                b.onclick = function() { breakTen(this); };
+                tensContainer.appendChild(b);
+            }
+            for(let i=0; i<2; i++) {
+                const b = document.createElement('div');
+                b.classList.add('block-one');
+                onesContainer.appendChild(b);
+            }
+            tens = 3; ones = 2; broken = false;
+            instruction.innerText = "Tenemos 3 Decenas y 2 Unidades (32). Queremos quitar 5 unidades. ¡Haz clic en una DECENA para romperla!";
+            instruction.style.color = "#880e4f";
+            document.getElementById('equation').innerText = "32 - 5 = ?";
+        }
+    </script>
+</body>
+</html>

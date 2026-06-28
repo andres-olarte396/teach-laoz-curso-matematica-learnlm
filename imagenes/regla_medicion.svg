@@ -1,0 +1,20 @@
+<svg width="300" height="150" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes grow {
+      0% { width: 20px; }
+      100% { width: 200px; }
+    }
+  </style>
+
+  <!-- Ruler -->
+  <rect x="0" y="100" width="300" height="40" fill="#F0E68C" stroke="black"/>
+  <line x1="10" y1="100" x2="10" y2="120" stroke="black"/> <text x="5" y="135" font-size="10">0</text>
+  <line x1="60" y1="100" x2="60" y2="120" stroke="black"/> <text x="55" y="135" font-size="10">5</text>
+  <line x1="110" y1="100" x2="110" y2="120" stroke="black"/> <text x="105" y="135" font-size="10">10</text>
+  <line x1="160" y1="100" x2="160" y2="120" stroke="black"/> <text x="155" y="135" font-size="10">15</text>
+  <line x1="210" y1="100" x2="210" y2="120" stroke="black"/> <text x="205" y="135" font-size="10">20</text>
+
+  <!-- Pencil Growing -->
+  <rect x="10" y="70" width="20" height="20" fill="orange" stroke="black" style="animation: grow 3s infinite alternate ease-in-out;"/>
+  <text x="10" y="50" font-family="Arial" font-size="12">Midiendo...</text>
+</svg>

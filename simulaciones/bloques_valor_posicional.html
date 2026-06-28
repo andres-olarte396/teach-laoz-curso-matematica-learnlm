@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bloques Mágicos</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; background-color: #fafad2; text-align: center; }
+        h1 { color: #8b4513; }
+        .controls { margin: 20px; font-size: 1.5em; }
+        .display-number { font-size: 3em; font-weight: bold; color: #ff4500; margin: 20px; }
+        .visualization { display: flex; justify-content: center; gap: 40px; margin-top: 30px; align-items: flex-end; height: 300px; }
+        
+        .tens-column, .units-column { display: flex; flex-direction: column-reverse; align-items: center; width: 100px; }
+        
+        .unit-block { width: 30px; height: 30px; background-color: #1e90ff; border: 2px solid #00008b; margin: 2px; }
+        .ten-block { width: 30px; height: 300px; background-color: #dc143c; border: 2px solid #8b0000; display: flex; flex-direction: column; margin: 5px; }
+        .ten-block .segment { height: 28px; border-bottom: 2px solid rgba(0,0,0,0.2); width: 100%; box-sizing: border-box; }
+        
+        button { font-size: 1.2em; padding: 10px 20px; cursor: pointer; background-color: #ffd700; border: none; border-radius: 10px; margin: 0 10px; }
+        button:active { background-color: #ffa500; }
+    </style>
+</head>
+<body>
+
+    <h1>🏰 Bloques Mágicos 🟦</h1>
+    
+    <div class="display-number" id="currentNumber">0</div>
+    
+    <div class="controls">
+        <button onclick="changeNumber(-10)">-10</button>
+        <button onclick="changeNumber(-1)">-1</button>
+        <button onclick="changeNumber(1)">+1</button>
+        <button onclick="changeNumber(10)">+10</button>
+    </div>
+
+    <div class="visualization" id="visualContainer">
+        <!-- Javascript will populate this -->
+    </div>
+
+    <script>
+        let number = 0;
+
+        function changeNumber(delta) {
+            number += delta;
+            if (number < 0) number = 0;
+            if (number > 99) number = 99; // Cap at 99 for this demo
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            document.getElementById('currentNumber').innerText = number;
+            
+            const tens = Math.floor(number / 10);
+            const units = number % 10;
+            const container = document.getElementById('visualContainer');
+            container.innerHTML = '';
+
+            // Render Tens
+            for (let i = 0; i < tens; i++) {
+                let ten = document.createElement('div');
+                ten.className = 'ten-block';
+                // Add visual segments
+                for(let j=0; j<10; j++) {
+                    let seg = document.createElement('div');
+                    seg.className = 'segment';
+                    ten.appendChild(seg);
+                }
+                container.appendChild(ten);
+            }
+
+            // Render Units (grouped in a column for neatness, or loose?)
+            // Let's make them loose but stacked
+            let unitCol = document.createElement('div');
+            unitCol.className = 'units-column';
+            for (let i = 0; i < units; i++) {
+                let u = document.createElement('div');
+                u.className = 'unit-block';
+                unitCol.appendChild(u);
+            }
+            container.appendChild(unitCol);
+        }
+
+        updateDisplay();
+    </script>
+</body>
+</html>

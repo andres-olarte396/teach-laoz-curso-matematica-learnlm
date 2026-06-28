@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Reloj Interactivo</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; background-color: #e0ffff; }
+        .clock { width: 300px; height: 300px; border-radius: 50%; background: white; border: 10px solid #333; position: relative; margin: 20px auto; }
+        .hand { position: absolute; transform-origin: bottom center; bottom: 50%; left: 50%; border-radius: 5px; }
+        .hour-hand { width: 8px; height: 80px; background: #333; margin-left: -4px; z-index: 10; transform: rotate(0deg); }
+        .minute-hand { width: 4px; height: 120px; background: red; margin-left: -2px; z-index: 5; transform: rotate(0deg); }
+        .center-dot { width: 20px; height: 20px; background: #333; border-radius: 50%; position: absolute; top: 50%; left: 50%; margin: -10px 0 0 -10px; z-index: 15; }
+        .controls { margin: 20px; }
+        button { font-size: 1.2em; padding: 10px; margin: 5px; cursor: pointer; }
+        #timeDisplay { font-size: 2em; font-weight: bold; color: #333; }
+        .number { position: absolute; font-size: 1.5em; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🕰️ Viaje en el Tiempo</h1>
+    <div id="timeDisplay">12:00</div>
+
+    <div class="clock" id="clockFace">
+        <div class="center-dot"></div>
+        <div class="hand hour-hand" id="hourHand"></div>
+        <div class="hand minute-hand" id="minuteHand"></div>
+    </div>
+
+    <div class="controls">
+        <button onclick="changeTime(60)">+ 1 Hora</button>
+        <button onclick="changeTime(30)">+ 30 Min</button>
+        <button onclick="changeTime(5)">+ 5 Min</button>
+        <br>
+        <button onclick="changeTime(-60)">- 1 Hora</button>
+        <button onclick="changeTime(-30)">- 30 Min</button>
+        <button onclick="changeTime(-5)">- 5 Min</button>
+    </div>
+
+    <script>
+        // Draw numbers
+        const clockStart = document.getElementById('clockFace');
+        for(let i=1; i<=12; i++) {
+            let num = document.createElement('div');
+            num.className = 'number';
+            num.innerText = i;
+            let angle = (i * 30) * (Math.PI / 180);
+            let r = 130; // radius
+            let x = 140 + r * Math.sin(angle); // center offset + r * sin
+            let y = 140 - r * Math.cos(angle);
+            num.style.left = (x - 10) + 'px'; // adjust for width
+            num.style.top = (y - 10) + 'px';
+            clockStart.appendChild(num);
+        }
+
+        let totalMinutes = 12 * 60; // Start at 12:00
+
+        function changeTime(mins) {
+            totalMinutes += mins;
+            if (totalMinutes < 0) totalMinutes += 12 * 60 * 2; // wrap around day
+            updateClock();
+        }
+
+        function updateClock() {
+            let h = Math.floor(totalMinutes / 60) % 12;
+            if (h === 0) h = 12;
+            let m = totalMinutes % 60;
+
+            // Rotation
+            let mDeg = m * 6;
+            let hDeg = (h % 12) * 30 + m * 0.5;
+
+            document.getElementById('minuteHand').style.transform = `rotate(${mDeg}deg)`;
+            document.getElementById('hourHand').style.transform = `rotate(${hDeg}deg)`;
+
+            // Display
+            let mStr = m < 10 ? '0'+m : m;
+            document.getElementById('timeDisplay').innerText = `${h}:${mStr}`;
+        }
+        
+        // Init
+        updateClock();
+
+    </script>
+</body>
+</html>

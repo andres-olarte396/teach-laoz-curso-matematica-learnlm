@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creador de Cuentos Matemáticos</title>
+    <style>
+        body { font-family: 'Comic Sans MS', cursive, sans-serif; text-align: center; background-color: #fff9c4; padding: 20px; }
+        .story-box { background: white; border: 2px dashed #ff9800; padding: 20px; border-radius: 15px; max-width: 600px; margin: 20px auto; font-size: 1.2em; line-height: 1.6; }
+        select, input { font-size: 1em; padding: 5px; border-radius: 5px; border: 2px solid #ccc; background: #e0f2f1; cursor: pointer; }
+        .highlight { color: #d84315; font-weight: bold; }
+        button { background: #4caf50; color: white; padding: 10px 20px; font-size: 1.2em; border: none; border-radius: 10px; cursor: pointer; margin-top: 20px; }
+        button:hover { background: #388e3c; }
+        #illustration { font-size: 4em; display: block; margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>📚 Mi Cuento Matemático</h1>
+    <p>¡Elige las palabras para inventar tu propia historia!</p>
+
+    <div class="story-box">
+        <div id="story-form">
+            Había una vez <input type="number" id="num1" value="3" min="1" max="10" style="width: 50px;"> 
+            <select id="animal">
+                <option value="🐸">ranas</option>
+                <option value="🐧">pingüinos</option>
+                <option value="🤖">robots</option>
+                <option value="🐲">dragones</option>
+            </select>
+            en un <select id="place">
+                <option value="lago">lago</option>
+                <option value="castillo">castillo</option>
+                <option value="parque">parque</option>
+            </select>.
+            <br><br>
+            Luego <select id="action">
+                <option value="add">llegaron</option>
+                <option value="sub">se fueron</option>
+            </select>
+            <input type="number" id="num2" value="2" min="1" max="10" style="width: 50px;"> más.
+        </div>
+        
+        <div id="story-result" style="display:none;">
+            <span id="illustration"></span>
+            <p id="final-text"></p>
+            <p class="highlight" id="math-eq"></p>
+        </div>
+    </div>
+
+    <button onclick="tellStory()">¡Contar Historia!</button>
+    <button onclick="resetStory()" style="background:#f44336; display:none;" id="reset-btn">Otro Cuento</button>
+
+    <script>
+        function tellStory() {
+            const n1 = parseInt(document.getElementById('num1').value);
+            const n2 = parseInt(document.getElementById('num2').value);
+            const animal = document.getElementById('animal').value;
+            const place = document.getElementById('place').value;
+            const action = document.getElementById('action').value;
+            
+            let resultText = "";
+            let math = "";
+            let total = 0;
+            let emoji = animal;
+
+            if (action === 'add') {
+                total = n1 + n2;
+                resultText = `Había ${n1} ${animal} en un ${place}. Luego llegaron ${n2} más. ¡Ahora hay una fiesta de ${total} ${animal}!`;
+                math = `${n1} + ${n2} = ${total}`;
+            } else {
+                if (n2 > n1) {
+                    alert("¡Oh no! No se pueden ir más de los que hay. Cambia los números.");
+                    return;
+                }
+                total = n1 - n2;
+                resultText = `Había ${n1} ${animal} en un ${place}. Pero ${n2} se fueron a dormir. Ahora solo quedan ${total} ${animal}.`;
+                math = `${n1} - ${n2} = ${total}`;
+            }
+
+            document.getElementById('story-form').style.display = 'none';
+            document.getElementById('story-result').style.display = 'block';
+            document.getElementById('illustration').innerText = emoji.repeat(total > 10 ? 10 : total) + (total > 10 ? "..." : "");
+            document.getElementById('final-text').innerText = resultText;
+            document.getElementById('math-eq').innerText = math;
+            
+            document.querySelector('button[onclick="tellStory()"]').style.display = 'none';
+            document.getElementById('reset-btn').style.display = 'inline-block';
+        }
+
+        function resetStory() {
+            document.getElementById('story-form').style.display = 'block';
+            document.getElementById('story-result').style.display = 'none';
+            document.querySelector('button[onclick="tellStory()"]').style.display = 'inline-block';
+            document.getElementById('reset-btn').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

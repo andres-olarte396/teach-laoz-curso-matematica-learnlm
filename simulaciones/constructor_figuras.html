@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constructor de Figuras</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; background-color: #f3e5f5; }
+        #canvas-container { 
+            position: relative; 
+            width: 400px; height: 400px; 
+            background-color: white; 
+            border: 2px solid #8e24aa; 
+            margin: 20px auto; 
+            cursor: crosshair;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        canvas { width: 100%; height: 100%; }
+        button { padding: 10px 20px; font-size: 1.1em; margin: 5px; cursor: pointer; border: none; border-radius: 5px; color: white; background-color: #9c27b0; }
+        button.action { background-color: #ba68c8; }
+        button:hover { opacity: 0.9; }
+        #info { font-size: 1.2em; color: #4a148c; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>📐 Constructor de Formas</h1>
+    <p id="info">Haz clic en el cuadro para colocar puntos y dibujar líneas.</p>
+
+    <div id="canvas-container">
+        <canvas id="geoCanvas" width="400" height="400"></canvas>
+    </div>
+
+    <div>
+        <button class="action" onclick="closePath()">Cerrar Forma</button>
+        <button onclick="resetCanvas()">Borrar Todo</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('geoCanvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+
+        canvas.addEventListener('mousedown', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            points.push({x, y});
+            draw();
+        });
+
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Grid
+            ctx.strokeStyle = '#e1bee7';
+            ctx.lineWidth = 1;
+            for(let i=0; i<400; i+=20) {
+                ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i, 400); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(0, i); ctx.lineTo(400, i); ctx.stroke();
+            }
+
+            // Lines
+            ctx.strokeStyle = '#8e24aa';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            if(points.length > 0) {
+                ctx.moveTo(points[0].x, points[0].y);
+                for(let i=1; i<points.length; i++) {
+                    ctx.lineTo(points[i].x, points[i].y);
+                }
+                ctx.stroke();
+            }
+
+            // Points
+            ctx.fillStyle = '#ff4081';
+            for(let p of points) {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function closePath() {
+            if(points.length > 2) {
+                ctx.beginPath();
+                ctx.moveTo(points[points.length-1].x, points[points.length-1].y);
+                ctx.lineTo(points[0].x, points[0].y);
+                ctx.strokeStyle = '#8e24aa';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                
+                // Fill
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for(let i=1; i<points.length; i++) ctx.lineTo(points[i].x, points[i].y);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(233, 30, 99, 0.2)';
+                ctx.fill();
+                
+                let sides = points.length;
+                let name = "Figura";
+                if(sides === 3) name = "Triángulo";
+                if(sides === 4) name = "Cuadrilátero";
+                if(sides === 5) name = "Pentágono";
+                
+                document.getElementById('info').innerText = `¡Has dibujado un ${name} con ${sides} lados!`;
+                points = []; // Reset points but leave drawing until click
+            }
+        }
+
+        function resetCanvas() {
+            points = [];
+            document.getElementById('info').innerText = "Haz clic en el cuadro para colocar puntos y dibujar líneas.";
+            draw();
+        }
+
+        draw(); // draw grid
+    </script>
+</body>
+</html>

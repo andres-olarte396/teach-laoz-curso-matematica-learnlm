@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laberinto Espacial</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; text-align: center; background-color: #2c3e50; color: white; }
+        #game-board { 
+            display: grid; 
+            grid-template-columns: repeat(5, 60px); 
+            grid-template-rows: repeat(5, 60px); 
+            gap: 5px; 
+            margin: 20px auto; 
+            width: fit-content; 
+            background: #34495e; 
+            padding: 10px; 
+            border-radius: 10px; 
+        }
+        .cell { width: 60px; height: 60px; background-color: #ecf0f1; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 30px; }
+        .wall { background-color: #7f8c8d; }
+        .player { background-color: #3498db; color: white; border-radius: 50%; }
+        .goal { background-color: #f1c40f; animation: pulse 1s infinite; }
+        .controls { margin-top: 20px; }
+        button { font-size: 20px; padding: 10px 20px; margin: 5px; cursor: pointer; background: #e74c3c; color: white; border: none; border-radius: 5px; }
+        button:hover { background: #c0392b; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Aventura Espacial</h1>
+    <p>Usa los botones para mover al cohete (🔵) hasta la estrella (⭐).</p>
+
+    <div id="game-board"></div>
+
+    <div class="controls">
+        <button onclick="move(-1, 0)">⬆️ Arriba</button><br>
+        <button onclick="move(0, -1)">⬅️ Izquierda</button>
+        <button onclick="move(0, 1)">➡️ Derecha</button><br>
+        <button onclick="move(1, 0)">⬇️ Abajo</button>
+    </div>
+
+    <script>
+        const board = document.getElementById('game-board');
+        // 0=path, 1=wall, 2=player, 3=goal
+        const map = [
+            [2, 0, 1, 0, 3],
+            [1, 0, 1, 0, 1],
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0]
+        ];
+        let playerPos = { r: 0, c: 0 };
+
+        function drawMap() {
+            board.innerHTML = '';
+            for(let r=0; r<5; r++) {
+                for(let c=0; c<5; c++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if (map[r][c] === 1) cell.classList.add('wall');
+                    if (r === playerPos.r && c === playerPos.c) {
+                        cell.innerText = '🚀';
+                        cell.classList.add('player');
+                    } else if (map[r][c] === 3) {
+                        cell.innerText = '⭐';
+                        cell.classList.add('goal');
+                    }
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function move(dr, dc) {
+            const newR = playerPos.r + dr;
+            const newC = playerPos.c + dc;
+
+            if (newR >= 0 && newR < 5 && newC >= 0 && newC < 5 && map[newR][newC] !== 1) {
+                playerPos = { r: newR, c: newC };
+                drawMap();
+                if (map[newR][newC] === 3) {
+                    setTimeout(() => alert("¡Llegaste! 🌟 Misión Cumplida."), 100);
+                }
+            }
+        }
+
+        drawMap();
+    </script>
+</body>
+</html>

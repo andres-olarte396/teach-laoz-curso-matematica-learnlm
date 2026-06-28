@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Juego de Clasificación</title>
+    <style>
+      body {
+        font-family: "Comic Sans MS", cursive, sans-serif;
+        background-color: #f0f8ff;
+        text-align: center;
+      }
+      h1 {
+        color: #ff6347;
+      }
+      .container {
+        display: flex;
+        justify-content: center;
+        gap: 50px;
+        margin-top: 20px;
+      }
+      .zone {
+        width: 200px;
+        height: 300px;
+        border: 5px dashed #4682b4;
+        border-radius: 20px;
+        background-color: #e6e6fa;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 10px;
+      }
+      .zone h2 {
+        font-size: 1.2em;
+        color: #4682b4;
+      }
+      .draggable {
+        width: 60px;
+        height: 60px;
+        margin: 10px;
+        cursor: grab;
+        touch-action: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2em;
+        user-select: none;
+      }
+      .pool {
+        border: 2px solid #ccc;
+        padding: 20px;
+        margin: 20px auto;
+        width: 80%;
+        background-color: white;
+        border-radius: 15px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        min-height: 100px;
+      }
+      .success-message {
+        color: green;
+        font-size: 1.5em;
+        display: none;
+        margin-top: 20px;
+        font-weight: bold;
+      }
+      /* Shapes */
+      .circle {
+        background-color: #ff69b4;
+        border-radius: 50%;
+      }
+      .square {
+        background-color: #32cd32;
+        border-radius: 10px;
+      }
+      .triangle {
+        width: 0;
+        height: 0;
+        border-left: 30px solid transparent;
+        border-right: 30px solid transparent;
+        border-bottom: 60px solid #ffd700;
+        background-color: transparent;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>¡Clasifica las Figuras! 🔴🟦</h1>
+    <p>Arrastra los círculos y cuadrados a su casa correcta.</p>
+
+    <div class="pool" id="pool">
+      <div class="draggable circle" draggable="true" id="c1"></div>
+      <div class="draggable square" draggable="true" id="s1"></div>
+      <div class="draggable circle" draggable="true" id="c2"></div>
+      <div class="draggable square" draggable="true" id="s2"></div>
+      <div class="draggable circle" draggable="true" id="c3"></div>
+    </div>
+
+    <div class="container">
+      <div
+        class="zone"
+        id="zone-circle"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <h2>Casa Redonda 🔴</h2>
+      </div>
+      <div
+        class="zone"
+        id="zone-square"
+        ondrop="drop(event)"
+        ondragover="allowDrop(event)"
+      >
+        <h2>Casa Cuadrada 🟦</h2>
+      </div>
+    </div>
+
+    <div class="success-message" id="successVideo">
+      ¡Buen trabajo! ¡Eres un genio! 🎉
+    </div>
+
+    <script>
+      document.querySelectorAll(".draggable").forEach((item) => {
+        item.addEventListener("dragstart", drag);
+      });
+
+      function allowDrop(ev) {
+        ev.preventDefault();
+      }
+
+      function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+      }
+
+      function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        var draggedElement = document.getElementById(data);
+        var targetZone = ev.target.closest(".zone");
+
+        if (!targetZone) return;
+
+        // Logic check
+        if (
+          targetZone.id === "zone-circle" &&
+          draggedElement.classList.contains("circle")
+        ) {
+          targetZone.appendChild(draggedElement);
+        } else if (
+          targetZone.id === "zone-square" &&
+          draggedElement.classList.contains("square")
+        ) {
+          targetZone.appendChild(draggedElement);
+        } else {
+          alert("¡Ups! Esa figura no vive ahí. Intenta de nuevo.");
+        }
+
+        checkWin();
+      }
+
+      function checkWin() {
+        var pool = document.getElementById("pool");
+        if (pool.children.length === 0) {
+          document.getElementById("successVideo").style.display = "block";
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Explorador del 1000</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; background-color: #f5f5f5; text-align: center; }
+        h1 { color: #6a5acd; }
+        .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; max-width: 600px; margin: 20px auto; }
+        .cell { background-color: white; border: 1px solid #ccc; padding: 10px; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+        .cell:hover { background-color: #ffd700; transform: scale(1.1); }
+        .controls { margin: 20px; }
+        button { padding: 10px 20px; font-size: 1.2em; border-radius: 5px; border: none; background-color: #6a5acd; color: white; cursor: pointer; }
+        button:disabled { background-color: #ccc; }
+        .current-range { font-size: 1.5em; font-weight: bold; color: #444; margin: 10px; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Explorador del 1000</h1>
+    <p>¡Viaja por las centenas! Toca un número para escucharlo (simulado).</p>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="changePage(-1)">⬅️ Anterior</button>
+        <span class="current-range" id="rangeDisplay">1 - 100</span>
+        <button id="nextBtn" onclick="changePage(1)">Siguiente ➡️</button>
+    </div>
+
+    <div class="grid" id="grid">
+        <!-- JS fills this -->
+    </div>
+
+    <script>
+        let currentHundred = 0; // 0 = 1-100, 1 = 101-200
+
+        function renderGrid() {
+            const grid = document.getElementById('grid');
+            grid.innerHTML = '';
+            
+            const start = currentHundred * 100 + 1;
+            const end = start + 99;
+
+            document.getElementById('rangeDisplay').innerText = `${start} - ${end}`;
+            document.getElementById('prevBtn').disabled = currentHundred === 0;
+            document.getElementById('nextBtn').disabled = currentHundred === 9;
+
+            for (let i = start; i <= end; i++) {
+                let cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.innerText = i;
+                cell.onclick = () => speakNumber(i);
+                
+                // Highlight patterns
+                if (i % 10 === 0) cell.style.color = 'red';
+                
+                grid.appendChild(cell);
+            }
+        }
+
+        function changePage(delta) {
+            currentHundred += delta;
+            renderGrid();
+        }
+
+        function speakNumber(num) {
+            // Simple visual feedback
+            alert(`Soy el número ${num}`);
+        }
+
+        renderGrid();
+    </script>
+</body>
+</html>

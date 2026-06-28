@@ -1,0 +1,42 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes eat1 {
+      0% { opacity: 1; }
+      33% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes eat2 {
+      0% { opacity: 1; }
+      66% { opacity: 0; }
+      100% { opacity: 0; }
+    }
+    @keyframes eat3 {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+    @keyframes crumbs {
+      0% { opacity: 0; transform: translateY(0); }
+      33%, 66%, 100% { opacity: 1; transform: translateY(10px); }
+    }
+  </style>
+
+  <g transform="translate(100, 100)">
+    <!-- Base Cookie -->
+    <circle cx="0" cy="0" r="50" fill="#D2691E" stroke="brown" stroke-width="2"/>
+    <circle cx="-20" cy="-20" r="5" fill="#3E2723"/> <!-- Chip -->
+    <circle cx="20" cy="20" r="5" fill="#3E2723"/> <!-- Chip -->
+    <circle cx="10" cy="-30" r="5" fill="#3E2723"/> <!-- Chip -->
+    <circle cx="-10" cy="30" r="5" fill="#3E2723"/> <!-- Chip -->
+
+    <!-- Bite Masks (White circles to hide parts) -->
+    <circle cx="50" cy="-20" r="25" fill="white" style="animation: eat1 3s infinite steps(1); animation-delay: 1s;" opacity="0"/>
+    <circle cx="50" cy="20" r="25" fill="white" style="animation: eat2 3s infinite steps(1); animation-delay: 2s;" opacity="0"/>
+    <circle cx="0" cy="0" r="25" fill="white" style="animation: eat3 3s infinite steps(1); animation-delay: 2.5s;" opacity="0"/>
+    
+    <!-- Crumbs -->
+    <g style="animation: crumbs 3s infinite;">
+        <circle cx="40" cy="40" r="2" fill="brown"/>
+        <circle cx="45" cy="45" r="2" fill="brown"/>
+    </g>
+  </g>
+</svg>

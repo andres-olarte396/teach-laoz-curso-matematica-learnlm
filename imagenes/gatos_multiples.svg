@@ -1,0 +1,41 @@
+<svg width="300" height="150" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes pop1 { 0% { opacity: 0; transform: scale(0); } 33% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1); } }
+    @keyframes pop2 { 0% { opacity: 0; transform: scale(0); } 66% { opacity: 0; transform: scale(0); } 100% { opacity: 1; transform: scale(1); } }
+  </style>
+
+  <!-- Cat 1 (Original) -->
+  <g transform="translate(50, 75)">
+    <circle cx="0" cy="0" r="30" fill="gray" stroke="black"/>
+    <polygon points="-20,-20 -30,-40 -10,-25" fill="gray" stroke="black"/>
+    <polygon points="20,-20 30,-40 10,-25" fill="gray" stroke="black"/>
+    <circle cx="-10" cy="-5" r="3" fill="black"/>
+    <circle cx="10" cy="-5" r="3" fill="black"/>
+    <text x="-10" y="50" font-size="20">x 3</text>
+  </g>
+
+  <!-- Arrow -->
+  <text x="110" y="80" font-size="30">➡️</text>
+
+  <!-- Multiplied Cats (Group) -->
+  <g transform="translate(180, 75)">
+    <!-- Cat Copy 1 -->
+    <g style="animation: pop1 2s infinite;">
+        <circle cx="0" cy="0" r="20" fill="orange" stroke="black"/>
+        <polygon points="-15,-15 -20,-30 -5,-18" fill="orange" stroke="black"/>
+        <polygon points="15,-15 20,-30 5,-18" fill="orange" stroke="black"/>
+    </g>
+    <!-- Cat Copy 2 -->
+    <g transform="translate(45, 0)" style="animation: pop2 2s infinite;">
+        <circle cx="0" cy="0" r="20" fill="orange" stroke="black"/>
+        <polygon points="-15,-15 -20,-30 -5,-18" fill="orange" stroke="black"/>
+        <polygon points="15,-15 20,-30 5,-18" fill="orange" stroke="black"/>
+    </g>
+    <!-- Cat Copy 3 -->
+    <g transform="translate(90, 0)" style="animation: pop2 2s infinite; animation-delay: 0.5s;">
+        <circle cx="0" cy="0" r="20" fill="orange" stroke="black"/>
+        <polygon points="-15,-15 -20,-30 -5,-18" fill="orange" stroke="black"/>
+        <polygon points="15,-15 20,-30 5,-18" fill="orange" stroke="black"/>
+    </g>
+  </g>
+</svg>

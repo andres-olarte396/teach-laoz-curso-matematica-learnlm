@@ -1,0 +1,14 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes morph {
+      0% { d: path("M100,20 A80,80 0 1,1 100,180 A80,80 0 1,1 100,20"); fill: gold; } /* Circle */
+      33% { d: path("M20,20 L180,20 L180,180 L20,180 Z"); fill: dodgerblue; } /* Square */
+      66% { d: path("M100,20 L180,180 L20,180 Z"); fill: crimson; } /* Triangle */
+      100% { d: path("M100,20 A80,80 0 1,1 100,180 A80,80 0 1,1 100,20"); fill: gold; } /* Circle */
+    }
+  </style>
+
+  <path d="M100,20 A80,80 0 1,1 100,180 A80,80 0 1,1 100,20" stroke="black" stroke-width="2" style="animation: morph 6s infinite ease-in-out;"/>
+  
+  <text x="60" y="195" font-family="Arial" font-size="12" fill="gray">¡Me transformo!</text>
+</svg>

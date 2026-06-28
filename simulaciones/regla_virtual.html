@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regla Virtual</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; text-align: center; background-color: #ffe0b2; user-select: none; }
+        #game-area { width: 90%; max-width: 600px; height: 350px; background: white; border: 2px solid #e65100; margin: 20px auto; position: relative; overflow: hidden; border-radius: 10px; }
+        .object { 
+            position: absolute; left: 50px; top: 100px; 
+            height: 40px; 
+            background: linear-gradient(to right, #8d6e63, #d7ccc8); 
+            border-radius: 5px; 
+            display: flex; align-items: center; padding-left: 10px; font-weight: bold; color: white; border: 2px solid #5d4037;
+        }
+        .object::after { content: '✏️'; font-size: 30px; margin-left: auto; margin-right: -15px; }
+        
+        #ruler { 
+            position: absolute; left: 10px; top: 200px; 
+            width: 550px; height: 80px; 
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="550" height="80" viewBox="0 0 550 80"><rect width="550" height="80" fill="%23ffd54f" stroke="orange"/><g stroke="black"><path d="M10 0 v40" stroke-width="2"/><text x="12" y="55" font-family="Arial">0</text><path d="M60 0 v40" stroke-width="2"/><text x="62" y="55" font-family="Arial">1</text><path d="M110 0 v40" stroke-width="2"/><text x="112" y="55" font-family="Arial">2</text><path d="M160 0 v40" stroke-width="2"/><text x="162" y="55" font-family="Arial">3</text><path d="M210 0 v40" stroke-width="2"/><text x="212" y="55" font-family="Arial">4</text><path d="M260 0 v40" stroke-width="2"/><text x="262" y="55" font-family="Arial">5</text><path d="M310 0 v40" stroke-width="2"/><text x="312" y="55" font-family="Arial">6</text><path d="M360 0 v40" stroke-width="2"/><text x="362" y="55" font-family="Arial">7</text><path d="M410 0 v40" stroke-width="2"/><text x="412" y="55" font-family="Arial">8</text><path d="M460 0 v40" stroke-width="2"/><text x="462" y="55" font-family="Arial">9</text><path d="M510 0 v40" stroke-width="2"/><text x="512" y="55" font-family="Arial">10</text></g></svg>') no-repeat;
+            cursor: grab;
+        }
+        #result { font-size: 1.5em; margin: 20px; font-weight: bold; }
+        input { font-size: 1.5em; width: 60px; text-align: center; }
+        button { font-size: 1.2em; padding: 5px 15px; background: #fb8c00; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>📏 Midiendo el Mundo</h1>
+    <p>Arrastra la regla para medir el lápiz. ¿Cuánto mide?</p>
+
+    <div id="game-area">
+        <div id="object" class="object" style="width: 200px;"></div>
+        <div id="ruler"></div>
+    </div>
+
+    <div>
+        Respuesta: <input type="number" id="answer" min="1" max="10"> cm 
+        <button onclick="check()">Comprobar</button>
+        <button onclick="newRound()" style="background:#555;">Nuevo Objeto</button>
+    </div>
+    
+    <div id="result"></div>
+
+    <script>
+        const ruler = document.getElementById('ruler');
+        const object = document.getElementById('object');
+        const result = document.getElementById('result');
+        let currentLength = 4;
+        let isDragging = false;
+        let startX, startLeft;
+
+        // Drag Logic
+        ruler.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            startLeft = ruler.offsetLeft;
+            ruler.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if(!isDragging) return;
+            let newLeft = startLeft + (e.clientX - startX);
+            newLeft = Math.max(0, Math.min(newLeft, 550)); // Bounds
+            ruler.style.left = newLeft + 'px';
+        });
+
+        document.addEventListener('mouseup', () => {
+            isDragging = false;
+            ruler.style.cursor = 'grab';
+        });
+
+        function newRound() {
+            currentLength = Math.floor(Math.random() * 6) + 3; // 3 to 8
+            const pixelWidth = currentLength * 50; // Each unit is 50px
+            object.style.width = pixelWidth + 'px';
+            result.innerText = "";
+            document.getElementById('answer').value = "";
+            ruler.style.left = "10px"; // Reset ruler
+        }
+
+        function check() {
+            const val = parseInt(document.getElementById('answer').value);
+            if(val === currentLength) {
+                result.innerText = "¡Correcto! 🎉 Mide exactamente " + currentLength + " cm.";
+                result.style.color = "green";
+            } else {
+                result.innerText = "¡Casi! Intenta alinear el 0 con el inicio del lápiz. 🧐";
+                result.style.color = "red";
+            }
+        }
+
+        newRound();
+    </script>
+</body>
+</html>

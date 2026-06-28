@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Tesoros Visuales</title>
+    <style>
+        body { font-family: 'Comic Sans MS', cursive, sans-serif; text-align: center; background-color: #f0f8ff; }
+        #game-area { width: 90%; max-width: 600px; height: 400px; background-color: white; border: 3px solid #333; margin: 20px auto; position: relative; overflow: hidden; border-radius: 15px; }
+        .item { position: absolute; cursor: pointer; transition: transform 0.2s; }
+        .item:hover { transform: scale(1.2); }
+        #instructions { font-size: 1.2em; color: #333; margin: 10px; }
+        #score { font-size: 1.5em; color: green; font-weight: bold; }
+        .confetti { position: absolute; pointer-events: none; animation: fall 3s linear forwards; }
+        @keyframes fall { to { transform: translateY(400px); } }
+    </style>
+</head>
+<body>
+
+    <h1>👀 Detective de Formas</h1>
+    <p id="instructions">¡Encuentra los <span id="target-name" style="color:red; font-weight:bold;">CÍRCULOS ROJOS</span>!</p>
+    <p>Puntuación: <span id="score">0</span> / 5</p>
+
+    <div id="game-area"></div>
+
+    <script>
+        const gameArea = document.getElementById('game-area');
+        const scoreDisplay = document.getElementById('score');
+        const targetNameDisplay = document.getElementById('target-name');
+        let score = 0;
+        const totalTargets = 5;
+
+        // Shapes config
+        const shapes = [
+            { type: 'circle', color: 'red', isTarget: true },
+            { type: 'square', color: 'blue', isTarget: false },
+            { type: 'triangle', color: 'green', isTarget: false },
+            { type: 'circle', color: 'yellow', isTarget: false },
+            { type: 'rect', color: 'purple', isTarget: false }
+        ];
+
+        function createShape(type, color, isTarget) {
+            const el = document.createElement('div');
+            el.classList.add('item');
+            el.style.width = '40px';
+            el.style.height = '40px';
+            el.style.backgroundColor = color;
+            el.style.left = Math.random() * (gameArea.clientWidth - 50) + 'px';
+            el.style.top = Math.random() * (gameArea.clientHeight - 50) + 'px';
+
+            if (type === 'circle') el.style.borderRadius = '50%';
+            if (type === 'triangle') {
+                el.style.width = '0'; el.style.height = '0';
+                el.style.backgroundColor = 'transparent';
+                el.style.borderLeft = '20px solid transparent';
+                el.style.borderRight = '20px solid transparent';
+                el.style.borderBottom = `40px solid ${color}`;
+            }
+
+            el.onclick = () => {
+                if (isTarget) {
+                    score++;
+                    scoreDisplay.innerText = score;
+                    el.remove();
+                    createConfetti(el.style.left, el.style.top);
+                    if (score >= totalTargets) {
+                        document.getElementById('instructions').innerText = "¡GANASTE! 🎉 Has encontrado todos.";
+                        document.getElementById('instructions').style.color = "green";
+                    }
+                } else {
+                    el.style.transform = "rotate(20deg)";
+                    setTimeout(() => el.style.transform = "rotate(0deg)", 200);
+                }
+            };
+
+            gameArea.appendChild(el);
+        }
+
+        function createConfetti(x, y) {
+            for(let i=0; i<10; i++) {
+                const c = document.createElement('div');
+                c.classList.add('confetti');
+                c.style.left = x;
+                c.style.top = y;
+                c.style.width = '5px'; c.style.height = '5px';
+                c.style.backgroundColor = ['red','gold','blue'][Math.floor(Math.random()*3)];
+                gameArea.appendChild(c);
+            }
+        }
+
+        function initGame() {
+            // Add targets
+            for(let i=0; i<totalTargets; i++) createShape('circle', 'red', true);
+            // Add distractors
+            for(let i=0; i<15; i++) {
+                const s = shapes[Math.floor(Math.random() * shapes.length)];
+                if(!s.isTarget) createShape(s.type, s.color, s.isTarget);
+            }
+        }
+
+        initGame();
+    </script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<svg width="300" height="150" viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    @keyframes colorChange {
+      0% { fill: #ff6347; }
+      50% { fill: #ffd700; }
+      100% { fill: #1e90ff; }
+    }
+  </style>
+
+  <!-- Triangle -->
+  <polygon points="50,100 25,50 75,50" stroke="black" stroke-width="2" style="animation: float 2s infinite ease-in-out; animation-delay: 0s; fill: #ff6347;"/>
+  
+  <!-- Circle -->
+  <circle cx="150" cy="75" r="30" stroke="black" stroke-width="2" style="animation: float 2s infinite ease-in-out; animation-delay: 0.5s; fill: #ffd700;"/>
+  
+  <!-- Square -->
+  <rect x="225" y="50" width="50" height="50" stroke="black" stroke-width="2" style="animation: float 2s infinite ease-in-out; animation-delay: 1s; animation-name: float, colorChange; animation-duration: 2s, 5s;"/>
+</svg>

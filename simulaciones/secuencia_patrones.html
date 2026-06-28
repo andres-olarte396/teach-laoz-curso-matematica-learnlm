@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secuencias Secretas</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; text-align: center; background-color: #263238; color: white; }
+        #game-area { width: 90%; max-width: 600px; padding: 20px; background-color: #37474f; border-radius: 15px; margin: 20px auto; border: 2px solid #546e7a; }
+        .sequence-container { display: flex; justify-content: center; gap: 10px; font-size: 2em; margin-bottom: 30px; align-items: center; min-height: 80px; }
+        .item { width: 60px; height: 60px; display: flex; justify-content: center; align-items: center; border-radius: 10px; background: #607d8b; border: 2px solid #cfd8dc; }
+        .missing { background: #ff5722; animation: blink 1s infinite alternate; cursor: help; }
+        .options { display: flex; justify-content: center; gap: 20px; }
+        .option-btn { padding: 10px 20px; font-size: 1.5em; cursor: pointer; border: none; border-radius: 10px; background: #00bcd4; color: white; transition: transform 0.2s; }
+        .option-btn:hover { transform: scale(1.1); background: #0097a7; }
+        #message { height: 40px; font-size: 1.5em; margin-top: 10px; }
+        @keyframes blink { from { opacity: 0.6; } to { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <h1>🕵️‍♂️ Descubre el Patrón</h1>
+    <p>¿Qué sigue en la secuencia?</p>
+
+    <div id="game-area">
+        <div class="sequence-container" id="sequence"></div>
+        <div id="message"></div>
+        <div class="options" id="options"></div>
+    </div>
+
+    <button onclick="nextLevel()" style="margin-top:20px; padding:10px 20px; font-size:1.2em; background:#4caf50; border:none; border-radius:5px; color:white; cursor:pointer;">Siguiente Nivel</button>
+
+    <script>
+        const sequenceContainer = document.getElementById('sequence');
+        const optionsContainer = document.getElementById('options');
+        const message = document.getElementById('message');
+        
+        let currentLevel = 0;
+        
+        const levels = [
+            { type: 'num', seq: [2, 4, 6, 8, '?'], answer: 10, options: [9, 10, 12] },
+            { type: 'color', seq: ['🔴', '🔵', '🔴', '🔵', '?'], answer: '🔴', options: ['🔴', '🔵', '🟢'] },
+            { type: 'num', seq: [10, 20, 30, '?'], answer: 40, options: [35, 40, 50] },
+            { type: 'emoji', seq: ['🌙', '⭐', '🌙', '⭐', '?'], answer: '🌙', options: ['☀️', '🌙', '⭐'] },
+            { type: 'num', seq: [5, 10, 15, '?'], answer: 20, options: [16, 20, 25] },
+            { type: 'color', seq: ['🟩', '🟩', '🟨', '🟩', '🟩', '?'], answer: '🟨', options: ['🟩', '🟨', '🟥'] }
+        ];
+
+        function loadLevel() {
+            if(currentLevel >= levels.length) {
+                currentLevel = 0; // Loop or finish
+                message.innerText = "¡Eres un genio de los patrones! 🧠 Reiniciando...";
+                setTimeout(loadLevel, 2000);
+                return;
+            }
+
+            const level = levels[currentLevel];
+            sequenceContainer.innerHTML = '';
+            optionsContainer.innerHTML = '';
+            message.innerText = "";
+
+            // Build sequence
+            level.seq.forEach(item => {
+                const div = document.createElement('div');
+                div.classList.add('item');
+                div.innerText = item;
+                if(item === '?') {
+                    div.classList.add('missing');
+                }
+                sequenceContainer.appendChild(div);
+            });
+
+            // Build options
+            level.options.sort(() => Math.random() - 0.5); // Shuffle options
+            level.options.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.classList.add('option-btn');
+                btn.innerText = opt;
+                btn.onclick = () => checkAnswer(opt, level.answer);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(selected, correct) {
+            if(selected === correct) {
+                message.innerText = "¡Correcto! 🎉";
+                message.style.color = "#69f0ae";
+                document.querySelector('.missing').innerText = correct;
+                document.querySelector('.missing').classList.remove('missing');
+                optionsContainer.innerHTML = ''; // Hide options
+                setTimeout(nextLevel, 1500);
+            } else {
+                message.innerText = "Ups... inténtalo de nuevo. 🤔";
+                message.style.color = "#ff8a80";
+            }
+        }
+
+        function nextLevel() {
+            currentLevel++;
+            loadLevel();
+        }
+
+        loadLevel();
+    </script>
+</body>
+</html>

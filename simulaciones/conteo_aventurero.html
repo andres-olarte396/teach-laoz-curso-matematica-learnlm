@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteo Aventurero</title>
+    <style>
+        body { font-family: 'Verdana', sans-serif; text-align: center; background-color: #e0f7fa; }
+        #tree-container { position: relative; width: 300px; height: 400px; margin: 20px auto; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M50 80 L50 100 M40 100 L60 100" stroke="brown" stroke-width="10"/><circle cx="50" cy="40" r="40" fill="green"/></svg>') no-repeat center; background-size: contain; }
+        .apple { 
+            position: absolute; 
+            width: 30px; height: 30px; 
+            background-color: red; 
+            border-radius: 50%; 
+            cursor: pointer; 
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; align-items: center; color: white; font-weight: bold;
+        }
+        .apple.hidden { display: none; }
+        #counter { font-size: 2em; margin: 20px; color: #00695c; }
+        button { padding: 10px 20px; font-size: 1.2em; background: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        button:hover { background: #e65100; }
+    </style>
+</head>
+<body>
+
+    <h1>🍎 Cosecha de Manzanas</h1>
+    <p>¡Haz clic en las manzanas para contarlas y guardarlas en tu cesta!</p>
+
+    <div id="counter">Manzanas: 0</div>
+
+    <div id="tree-container"></div>
+    
+    <button onclick="resetGame()">Reiniciar Árbol</button>
+
+    <script>
+        const tree = document.getElementById('tree-container');
+        const counterDisplay = document.getElementById('counter');
+        let count = 0;
+        const totalApples = 10;
+
+        function createApple(id) {
+            const apple = document.createElement('div');
+            apple.classList.add('apple');
+            apple.innerText = id;
+            // Random position within the tree canopy roughly
+            const angle = Math.random() * Math.PI * 2;
+            const radius = Math.random() * 90; // within canopy
+            const x = 135 + Math.cos(angle) * (Math.random() * 80); 
+            const y = 130 + Math.sin(angle) * (Math.random() * 80); 
+            
+            apple.style.left = Math.min(Math.max(x, 40), 230) + 'px'; // clamp
+            apple.style.top = Math.min(Math.max(y, 40), 220) + 'px';  // clamp
+
+            apple.onclick = function() {
+                if (!apple.classList.contains('hidden')) {
+                    apple.classList.add('hidden');
+                    count++;
+                    updateDisplay();
+                    if(count === totalApples) {
+                        counterDisplay.innerHTML = "¡Excelente! 🧺 10 Manzanas.";
+                        counterDisplay.style.color = "#d32f2f";
+                    }
+                }
+            };
+            tree.appendChild(apple);
+        }
+
+        function updateDisplay() {
+            counterDisplay.innerText = "Manzanas: " + count;
+        }
+
+        function resetGame() {
+            tree.innerHTML = '';
+            count = 0;
+            updateDisplay();
+            counterDisplay.style.color = "#00695c";
+            for(let i=1; i<=totalApples; i++) {
+                createApple(i);
+            }
+        }
+
+        resetGame();
+    </script>
+</body>
+</html>

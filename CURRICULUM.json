@@ -1,0 +1,52 @@
+{
+  "course": {
+    "title": "Matemáticas Mágicas: 1º y 2º de Primaria",
+    "description": "Un viaje divertido por el mundo de los números y las formas.",
+    "modules": [
+      {
+        "id": "modulo_0",
+        "title": "Módulo 0: Antes de los Números",
+        "description": "Prepara tu mente: Conceptos espaciales y clasificación.",
+        "lessons": [
+          "00_intro_visual.md",
+          "01_conceptos_espaciales.md",
+          "02_clasificacion_basica.md"
+        ]
+      },
+      {
+        "id": "modulo_1",
+        "title": "Módulo 1: El Mundo de los Números (0-100)",
+        "description": "Descubre los números, cuenta y compara.",
+        "lessons": [
+          "01_conteo_aventurero.md",
+          "02_valor_posicional_bloques.md",
+          "03_mayor_menor_igual.md"
+        ]
+      },
+      {
+        "id": "modulo_2",
+        "title": "Módulo 2: Operaciones Mágicas (Sumas y Restas)",
+        "description": "Aprende a jugar con los números sumando y restando.",
+        "lessons": []
+      },
+      {
+        "id": "modulo_3",
+        "title": "Módulo 3: Formas y Medidas",
+        "description": "Explora el mundo de las figuras y el tiempo.",
+        "lessons": []
+      },
+      {
+        "id": "modulo_4",
+        "title": "Módulo 4: Números Grandes (hasta 1000)",
+        "description": "Aventúrate más allá del 100.",
+        "lessons": []
+      },
+      {
+        "id": "modulo_5",
+        "title": "Módulo 5: Desafíos Avanzados",
+        "description": "Llevadas, prestadas y multiplicaciones divertidas.",
+        "lessons": []
+      }
+    ]
+  }
+}
